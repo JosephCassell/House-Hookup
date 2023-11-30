@@ -12,7 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    return queryInterface.bulkInsert([{
+    return queryInterface.bulkInsert('spots', [{
       id: 1,
       ownerId: 1,
       address: '123 Main St',
