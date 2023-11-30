@@ -15,15 +15,11 @@ module.exports = {
     await queryInterface.bulkInsert('spotImages', [
       {
         spotId: 1, 
-        url: 'image1.jpg',
-        created_at: new Date(),
-        updated_at: new Date()
+        url: 'image1.jpg'
       },
       {
         spotId: 2,
-        url: 'image2.jpg',
-        created_at: new Date(),
-        updated_at: new Date()
+        url: 'image2.jpg'
       }
     ])
   },

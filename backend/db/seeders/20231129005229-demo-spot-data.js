@@ -24,10 +24,23 @@ module.exports = {
       name: 'ThePlace',
       description: 'A cool place with great views.',
       price: 99.99,
-      created_at: new Date(),
-      updated_at: new Date(),
+      avgRating: 4.5,
       previewImage: 'image-url.jpg',
-      avgRating: 4.5
+    },
+    {
+      id: 2,
+      ownerId: 2,
+      address: '222 Wood St',
+      city: 'Btown',
+      state: 'Bstate',
+      country: 'USA',
+      lat: 7.05225,
+      lng: -90.2433,
+      name: 'BPlace',
+      description: 'A dope place with great views.',
+      price: 100,
+      avgRating: 1.5,
+      previewImage: 'image-url2.jpg',
     }
   ])
   },

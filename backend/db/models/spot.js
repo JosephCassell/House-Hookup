@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true
     },
     ownerId: DataTypes.INTEGER,
-    allowNull: false,
     address: {
       type: DataTypes.STRING(300)
     },
@@ -56,21 +55,19 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     name: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(50),
       allowNull: false
     },
     description: DataTypes.TEXT,
     price: {
       type: DataTypes.DECIMAL(20, 2)
     },
-    created_at: DataTypes.TIMESTAMP,
-    updated_at: DataTypes.TIMESTAMP,
+    avgRating: {
+      type: DataTypes.DECIMAL(3, 2)
+    },
     previewImage: {
       type: DataTypes.STRING(300)
     },
-    avgRating: {
-      type: DataTypes.DECIMAL(3, 2)
-    }
   }, {
     sequelize,
     modelName: 'Spot',

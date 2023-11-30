@@ -11,7 +11,6 @@ module.exports = {
       },
       ownerId: {
         type: Sequelize.INTEGER,
-        allowNull: false
       },
       address: {
         type: Sequelize.STRING,
@@ -48,11 +47,11 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
-      previewImage: {
-        type: Sequelize.STRING
-      },
       avgRating: {
         type: Sequelize.DECIMAL
+      },
+      previewImage: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
