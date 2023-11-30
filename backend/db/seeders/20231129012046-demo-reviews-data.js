@@ -12,7 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('reviews', [
+    await queryInterface.bulkInsert('Reviews', [
       {
         userId: 1,
         spotId: 1,
@@ -39,5 +39,10 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    options.tableName = 'Reviews';
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete(options, {
+      stars: { [Op.in]: ['4', '5'] }
+    }, {});
   }
 };
