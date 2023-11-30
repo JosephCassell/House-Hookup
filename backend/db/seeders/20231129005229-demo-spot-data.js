@@ -12,7 +12,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    return queryInterface.bulkInsert('spots', [{
+    return queryInterface.bulkInsert([{
       id: 1,
       ownerId: 1,
       address: '123 Main St',
@@ -25,7 +25,7 @@ module.exports = {
       description: 'A cool place with great views.',
       price: 99.99,
       avgRating: 4.5,
-      previewImage: 'image-url.jpg',
+      
     },
     {
       id: 2,
