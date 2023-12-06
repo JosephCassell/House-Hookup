@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
       }
     },
-    startDATE: {
+    startDate: {
       type: DataTypes.DATE,
       allowNull: false
     },

@@ -1,5 +1,6 @@
 'use strict';
-
+let options = {};
+const { Spot } = require('../models');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -15,7 +16,7 @@ module.exports = {
     return queryInterface.bulkInsert('Spots', [{
       id: 1,
       ownerId: 1,
-      address: '123 Main St',
+      address: '111 Main St',
       city: 'Atown',
       state: 'Astate',
       country: 'USA',
@@ -23,9 +24,9 @@ module.exports = {
       lng: -118.243683,
       name: 'ThePlace',
       description: 'A cool place with great views.',
-      price: 99.99,
       avgRating: 4.5,
-      
+      price: 99.99,
+      previewImage: 'image-url1.jpg'
     },
     {
       id: 2,
@@ -33,14 +34,29 @@ module.exports = {
       address: '222 Wood St',
       city: 'Btown',
       state: 'Bstate',
-      country: 'USA',
+      country: 'USB',
       lat: 7.05225,
       lng: -90.2433,
       name: 'BPlace',
-      description: 'A dope place with great views.',
+      description: 'B dope place with great views.',
       price: 100,
       avgRating: 1.5,
       previewImage: 'image-url2.jpg',
+    },
+    {
+      id: 3,
+      ownerId: 3,
+      address: '333 Wood St',
+      city: 'ctown',
+      state: 'cstate',
+      country: 'USC',
+      lat: -11.05225,
+      lng: 110.2433,
+      name: 'CPlace',
+      description: 'C dope place with great views.',
+      price: 10,
+      avgRating: 3.5,
+      previewImage: 'image-url3.jpg',
     }
   ])
   },

@@ -1,9 +1,8 @@
 const express = require('express');
-const { Spot } = require('../../db/models'); 
+const { Review, User, Spot, ReviewImage, Booking } = require('../../db/models'); 
 const router = express.Router();
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Op } = require("sequelize");
-const { Review } = require('../../db/models'); 
 
 const validateReviews = (body) => {
   const errors = {};
@@ -185,16 +184,13 @@ router.put('/:spotId', requireAuth, async (req, res) => {
 router.delete('/:id', requireAuth, async (req, res) => {
       const spot = await Spot.findByPk(req.params.id);
 
-      if (!spot) {
-          return res.status(404).json({
-            message: "Spot couldn't be found"
-          });
-      }
+      if (!spot) return res.status(404).json({ message: "Spot couldn't be found"});
+      
       if (spot.ownerId !== req.user.id) return res.status(403).json({ message: "You do not have permission to delete this spot" });
+      
       await spot.destroy();
-      res.status(200).json({
-        message: "Successfully deleted"
-      });
+      
+      res.status(200).json({ message: "Successfully deleted"});
 });
 // Add image to spot based on spotId (in progress)
 // router.get('/:id', async (req, res) => {
@@ -203,8 +199,7 @@ router.delete('/:id', requireAuth, async (req, res) => {
 
 //       if (!spotDetails) {
 //           return res.status(404).json({
-//             "message": "Spot couldn't be found"
-//           });
+//             "message": "Spot couldn't be found"});
 //       }
 //       res.status(200).json(spotDetails);
 // });
@@ -235,7 +230,7 @@ router.post('/:id/reviews', requireAuth, async (req, res) => {
   
 
   const existingReview = await Review.findOne({ where: { userId, spotId } });
-  if (existingReview) return res.status(500).json({ message: 'User already has a review for this spot' });
+  if (existingReview) return res.status(403).json({ message: 'User already has a review for this spot' });
   
   
   const newReview = await Review.create({ userId, spotId, review, stars });
@@ -249,6 +244,65 @@ router.post('/:id/reviews', requireAuth, async (req, res) => {
     stars: newReview.stars,
     createdAt: newReview.createdAt,
     updatedAt: newReview.updatedAt
+  });
+});
+// Create a booking for a spot
+router.post('/:id/bookings', requireAuth, async (req, res) => {
+  const spotId = req.params.id;
+  const {startDate, endDate} = req.body;
+  const userId = req.user.id;
+  
+  if (startDate > endDate) {
+    return res.status(400).json({
+      message: "Bad Request",
+      errors: { endDate: 'enddate cannot be on or before startDate'}
+    });
+  }
+  const spot = await Spot.findByPk(spotId);
+  if (!spot) return res.status(404).json({ message: "Spot couldn't be found" });
+  
+
+  const existingBooking = await Booking.findOne({ where: { userId, spotId } });
+  if (existingBooking) return res.status(403).json({ message: 'User already has a booking for this spot' });
+  
+  const conflictingBooking = await Booking.findOne({
+    where: {
+      spotId,
+      [Op.or]: [
+        {
+          startDate: {
+            [Op.between]: [startDate, endDate],
+          },
+        },
+        {
+          endDate: {
+            [Op.between]: [startDate, endDate],
+          },
+        },
+      ],
+    },
+  });
+
+  if (conflictingBooking) {
+    return res.status(403).json({
+      message: "Sorry, this spot is already booked for the specified dates",
+      errors: {
+        startDate: "Start date conflicts with an existing booking",
+        endDate: "End date conflicts with an existing booking"
+      }
+    });
+  }
+  const newBooking = await Booking.create({ userId, spotId, startDate, endDate });
+  
+  
+  res.status(200).json({
+    id: newBooking.id,
+    userId: newBooking.userId,
+    spotId: parseInt(newBooking.spotId),
+    startDate: newBooking.startDate,
+    endDate: newBooking.endDate,
+    createdAt: newBooking.createdAt,
+    updatedAt: newBooking.updatedAt
   });
 });
 module.exports = router;

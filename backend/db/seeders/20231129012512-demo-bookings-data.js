@@ -1,5 +1,5 @@
 'use strict';
-
+let options = {};
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -14,18 +14,29 @@ module.exports = {
     */
     await queryInterface.bulkInsert('Bookings', [
       {
+        id: 1,
         spotId: 1, 
         userId: 1,
-        startDATE: new Date(2023, 0, 10), 
-        endDate: new Date(2023, 0, 15),
+        startDate: new Date(2023, 1, 10), 
+        endDate: new Date(2023, 1, 15),
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
+        id: 2,
+        spotId: 2, 
+        userId: 1,
+        startDate: new Date(2023, 1, 20),
+        endDate: new Date(2023, 1, 25),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
+      {
+        id: 3,
         spotId: 2, 
         userId: 2,
-        startDATE: new Date(2023, 1, 20),
-        endDate: new Date(2023, 1, 25),
+        startDate: new Date(2023, 3, 20),
+        endDate: new Date(2023, 4, 25),
         createdAt: new Date(),
         updatedAt: new Date()
       }
