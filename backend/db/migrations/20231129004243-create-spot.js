@@ -1,4 +1,5 @@
 'use strict';
+let options = {};
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -52,6 +53,9 @@ module.exports = {
       },
       previewImage: {
         type: Sequelize.STRING
+      },
+      numReviews: {
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

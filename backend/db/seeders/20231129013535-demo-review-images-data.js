@@ -1,5 +1,5 @@
 'use strict';
-
+let options = {};
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
@@ -14,12 +14,19 @@ module.exports = {
     */
     await queryInterface.bulkInsert('ReviewImages', [
       {
+        id: 1,
         reviewId: 1, 
         url: 'review-image1.jpg'
       },
       {
-        reviewId: 2, 
+        id: 2, 
+        reviewId: 2,
         url: 'review-image2.jpg'
+      },
+      {
+        id: 3, 
+        reviewId: 2,
+        url: 'review-image3.jpg'
       }
     ])
   },

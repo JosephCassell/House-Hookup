@@ -1,4 +1,5 @@
 'use strict';
+let options = {};
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -17,7 +18,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      startDATE: {
+      startDate: {
         type: Sequelize.DATE,
         allowNull: false
       },
