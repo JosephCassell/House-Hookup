@@ -3,4 +3,4 @@
 
 ![db-schema]
 
-[db-schema]: /database.png
+[db-schema]: /schema.png
