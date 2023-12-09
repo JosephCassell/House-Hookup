@@ -11,8 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Spot.belongsTo(models.User, { foreignKey: 'ownerId' });
+      Spot.belongsTo(models.User, { as: 'Owner' });
       Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
       Spot.hasMany(models.Review, { foreignKey: 'spotId' });
+      Spot.hasMany(models.Review, { foreignKey: 'stars' });
       Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
     }
   }
@@ -63,7 +65,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(20, 2)
     },
     avgRating: {
-      type: DataTypes.DECIMAL(3, 2)
+      type: DataTypes.DECIMAL(1, 1),
+      references: {
+        model: 'Reviews',
+        key: 'stars',
+      }
+    },
+    numReviews: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
     previewImage: {
       type: DataTypes.STRING(300)

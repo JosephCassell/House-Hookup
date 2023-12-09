@@ -12,7 +12,7 @@ const validateReviews = (body) => {
   
     return Object.keys(errors).length === 0 ? null : errors;
   };
-// Edit a review
+// Edit a Review
 router.put('/:id', requireAuth, async (req, res) => {  
       const  reviewId  = req.params.id;
       const { review, stars } = req.body;
@@ -26,9 +26,16 @@ router.put('/:id', requireAuth, async (req, res) => {
       errors: errors
       });
     }
+    
     const existingReview = await Review.findByPk(reviewId);
-    if (!existingReview) return res.status(404).json({ message: "Review couldn't be found" });
-    if (existingReview.userId !== userId) return res.status(403).json({ message: "You do not have permission to edit this review" });
+    
+    if (!existingReview) return res.status(404).json({ 
+        message: "Review couldn't be found" 
+    });
+    
+    if (existingReview.userId !== userId) return res.status(403).json({ 
+        message: "You do not have permission to edit this review" 
+    });
   
     const updatedReview = await existingReview.update({
         review,
@@ -45,7 +52,7 @@ router.put('/:id', requireAuth, async (req, res) => {
         updatedAt: updatedReview.updatedAt
       });
   });
-// Get all reviews of current user
+// Get all Reviews of the Current User
   router.get('/current', requireAuth, async (req, res) => {
         const reviews = await Review.findAll({
             where: { userId: req.user.id },
@@ -91,15 +98,55 @@ router.put('/:id', requireAuth, async (req, res) => {
 
         res.status(200).json({Reviews: reviews});
 });
-// Delete a review
+// Delete a Review
 router.delete('/:id', requireAuth, async (req, res) => {
     const review = await Review.findByPk(req.params.id);
-    if (!review) return res.status(404).json({message: "Review couldn't be found"});
-    if (review.userId !== req.user.id) return res.status(403).json({ message: "You do not have permission to delete this Review" });
+    
+    if (!review) return res.status(404).json({
+        message: "Review couldn't be found"
+    });
+
+    if (review.userId !== req.user.id) return res.status(403).json({
+        message: "You do not have permission to delete this Review" 
+    });
     
     await review.destroy();
     
     res.status(200).json({ message: "Successfully deleted"});
 });
+//Add an Image to a Review based on the Review's id
+router.post('/:id/images', requireAuth, async (req, res) => { 
+    const reviewId = req.params.id;
+    const url = req.body.url;
+  
+    
+    const review = await Review.findByPk(reviewId);
+    
+    if (!review) {
+        return res.status(404).json({ message: "Review not found" });
+    }
+    
+    if(review.userId !== req.user.id) {
+      return res.status(403).json({ 
+        message: "You do not have permission to add an image to this review" 
+      });
+    } 
+    
+    const numImages = await ReviewImage.count({where: {reviewId}})
+    
+    if (numImages >= 10) return res.status(403).json({
+        "message": "Maximum number of images for this resource was reached"
+    })
+    
+    const newImage = await ReviewImage.create({
+        url: url,
+        reviewId: reviewId
+    });
+  
+    res.status(200).json({
+        id: newImage.id,
+        url: newImage.url
+    });
+  })
 
 module.exports = router;

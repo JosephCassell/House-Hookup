@@ -24,8 +24,9 @@ module.exports = {
       lng: -118.243683,
       name: 'ThePlace',
       description: 'A cool place with great views.',
-      avgRating: 4.5,
+      //avgRating: 4.5,
       price: 99.99,
+      //numReviews: 2,
       previewImage: 'image-url1.jpg'
     },
     {
@@ -40,7 +41,8 @@ module.exports = {
       name: 'BPlace',
       description: 'B dope place with great views.',
       price: 100,
-      avgRating: 1.5,
+      //avgRating: 1.5,
+      //numReviews: 1,
       previewImage: 'image-url2.jpg',
     },
     {
@@ -55,7 +57,7 @@ module.exports = {
       name: 'CPlace',
       description: 'C dope place with great views.',
       price: 10,
-      avgRating: 3.5,
+      //avgRating: 3.5,
       previewImage: 'image-url3.jpg',
     }
   ])
