@@ -16,7 +16,8 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('SpotImages', [
+    options.tableName = 'SpotImages';
+    await queryInterface.bulkInsert(options, [
       {
         spotId: 1, 
         url: 'image1.jpg',
