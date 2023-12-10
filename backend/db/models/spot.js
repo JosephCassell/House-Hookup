@@ -64,10 +64,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     avgRating: {
       type: DataTypes.DECIMAL(1, 1),
-      references: {
-        model: 'Reviews',
-        key: 'stars',
-      }
+      // references: {
+      //   model: 'Reviews',
+      //   key: 'stars',
+      // }
     },
     numReviews: {
       type: DataTypes.INTEGER,
