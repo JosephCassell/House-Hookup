@@ -14,7 +14,7 @@ module.exports = {
      * }], {});
     */
     return queryInterface.bulkInsert('Spots', [{
-      id: 1,
+      //id: 1,
       ownerId: 1,
       address: '111 Main St',
       city: 'Atown',
@@ -30,7 +30,7 @@ module.exports = {
       previewImage: 'image-url1.jpg'
     },
     {
-      id: 2,
+      //id: 2,
       ownerId: 2,
       address: '222 Wood St',
       city: 'Btown',
@@ -46,7 +46,7 @@ module.exports = {
       previewImage: 'image-url2.jpg',
     },
     {
-      id: 3,
+      //id: 3,
       ownerId: 3,
       address: '333 Wood St',
       city: 'ctown',
