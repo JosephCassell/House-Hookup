@@ -16,7 +16,8 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    await queryInterface.bulkInsert('Reviews', [
+    options.tableName = 'Reviews';
+    await queryInterface.bulkInsert(options, [
       { 
         //id: 1,
         userId: 1,
