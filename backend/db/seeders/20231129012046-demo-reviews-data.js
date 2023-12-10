@@ -15,7 +15,7 @@ module.exports = {
     */
     await queryInterface.bulkInsert('Reviews', [
       { 
-        id: 1,
+        //id: 1,
         userId: 1,
         spotId: 1,
         review: 'Great place to stay, had a wonderful time!',
@@ -24,7 +24,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: 2,
+        //id: 2,
         userId: 2,
         spotId: 1,
         review: 'The location was perfect, but the room was smaller than expected.',
@@ -33,7 +33,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        id: 3,
+        //id: 3,
         userId: 2,
         spotId: 2,
         review: 'The location was bad, and the room was smaller than expected.',
