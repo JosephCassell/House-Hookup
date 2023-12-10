@@ -8,11 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Spot.belongsTo(models.User, { foreignKey: 'ownerId' });
-      Spot.belongsTo(models.User, { as: 'Owner' });
-      Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
       Spot.hasMany(models.Review, { foreignKey: 'spotId' });
-      //Spot.hasMany(models.Review, { foreignKey: 'stars' });
+      Spot.belongsTo(models.User, { foreignKey: 'ownerId', as: 'Owner' });
+      //Spot.belongsTo(models.User, {  });
+      Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
       Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
     }
   }
@@ -65,20 +64,21 @@ module.exports = (sequelize, DataTypes) => {
     avgRating: {
       type: DataTypes.DECIMAL(1, 1),
       // references: {
-      //   model: 'Reviews',
-      //   key: 'stars',
-      // }
-    },
-    numReviews: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-    },
-    previewImage: {
-      type: DataTypes.STRING(300)
-    },
-  }, {
-    sequelize,
-    modelName: 'Spot',
-  });
-  return Spot;
-};
+        //   model: 'Reviews',
+        //   key: 'stars',
+        // }
+      },
+      numReviews: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
+      previewImage: {
+        type: DataTypes.STRING(300)
+      },
+    }, {
+      sequelize,
+      modelName: 'Spot',
+    });
+    return Spot;
+  };
+  //Spot.hasMany(models.Review, { foreignKey: 'stars' });
