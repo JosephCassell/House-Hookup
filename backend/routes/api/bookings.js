@@ -61,12 +61,17 @@ router.put('/:id', requireAuth, async (req, res) => {
       message: "You do not have permission to edit this booking" 
     });
     
-    if (new Date(existingBooking.endDate) < new Date()) {
+    if (new Date(existingBooking.startDate) <= new Date()) {
         return res.status(403).json({
             message: "Past bookings can't be modified"
         });
       }
-
+      const currentDate = new Date();
+      if (new Date(startDate) < currentDate) {
+          return res.status(400).json({
+              message: "Cannot set booking to past dates"
+          });
+      }
     if (startDate >= endDate) {
         return res.status(400).json({
           message: "Bad Request",
