@@ -69,15 +69,20 @@ router.put('/:id', requireAuth, async (req, res) => {
         const [spots, reviewImages] = await Promise.all([
             Spot.findAll({
                 where: {id: spotIds},
-                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'avgRating', 'previewImage']
+                attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'previewImage']
             }),
             ReviewImage.findAll({
                 where: {reviewId: reviewIds},
                 attributes: ['id', 'reviewId', 'url']
             })
         ]);
-
-        const spotMap = spots.reduce((map, spot) => {
+        const convertedSpots = spots.map(spot => ({
+            ...spot.get({ plain: true }),
+            lat: parseFloat(spot.lat),
+            lng: parseFloat(spot.lng),
+            price: parseFloat(spot.price)
+        }));
+        const spotMap = convertedSpots.reduce((map, spot) => {
             map[spot.id] = spot;
             return map;
         }, {});
@@ -95,7 +100,6 @@ router.put('/:id', requireAuth, async (req, res) => {
             review.dataValues.Spot = spotMap[review.spotId];
             review.dataValues.ReviewImages = reviewImageMap[review.id] || 'No Images';
         });
-
         res.status(200).json({Reviews: reviews});
 });
 // Delete a Review

@@ -20,18 +20,27 @@ router.get('/current', requireAuth, async (req, res) => {
             'previewImage'],
         }]
     });
-    
     const restructuredBooking = bookings.map(booking => {
+        const spot = booking.Spot.get({ plain: true });
         return {
-            id: booking.id,
-            spotId: booking.spotId,
-            Spot: booking.Spot,
-            userId: booking.userId,
-            startDate: booking.startDate,
-            endDate: booking.endDate,
-            createdAt: booking.createdAt,
-            updatedAt: booking.updatedAt
+            ...booking.get({ plain: true }),
+            Spot: {
+                ...spot,
+                lat: parseFloat(spot.lat),
+                lng: parseFloat(spot.lng),
+                price: parseFloat(spot.price)
+            }
         };
+        // return {
+        //     id: booking.id,
+        //     spotId: booking.spotId,
+        //     Spot: booking.Spot,
+        //     userId: booking.userId,
+        //     startDate: booking.startDate,
+        //     endDate: booking.endDate,
+        //     createdAt: booking.createdAt,
+        //     updatedAt: booking.updatedAt
+        // };
     });
 
     res.status(200).json({ Bookings: restructuredBooking });
