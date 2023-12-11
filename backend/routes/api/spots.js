@@ -99,7 +99,12 @@ router.get('/', async (req, res) => {
   const where = findTheFilters(req.query)
   if (where) {
     const spotted = await Spot.findAll({
-      where, 
+      where,
+      attributes: [
+        'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 
+        'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 
+        'avgRating', 'previewImage'
+      ],  
       limit: size,
       offset: (page - 1) * size
     });
@@ -176,11 +181,11 @@ router.post('/', requireAuth, async (req, res) => {
       city: newSpot.city,
       state: newSpot.state,
       country: newSpot.country,
-      lat: newSpot.lat,
-      lng: newSpot.lng,
+      lat: parseFloat(newSpot.lat),
+      lng: parseFloat(newSpot.lng),
       name: newSpot.name,
       description: newSpot.description,
-      price: newSpot.price,
+      price: parseFloat(newSpot.price),
       createdAt: newSpot.createdAt,
       updatedAt: newSpot.updatedAt
     });
@@ -485,11 +490,11 @@ router.get('/:id', async (req, res) => {
     city: spot.city,
     state: spot.state,
     country: spot.country,
-    lat: spot.lat,
-    lng: spot.lng,
+    lat: parseFloat(spot.lat),
+    lng: parseFloat(spot.lng),
     name: spot.name,
     description: spot.description,
-    price: spot.price,
+    price: parseFloat(spot.price),
     numReviews: numReviews,
     avgStarRating: avgStarRating, 
     createdAt: spot.createdAt,
