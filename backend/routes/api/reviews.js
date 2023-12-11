@@ -34,7 +34,7 @@ router.put('/:id', requireAuth, async (req, res) => {
     });
     
     if (existingReview.userId !== userId) return res.status(403).json({ 
-        message: "You do not have permission to edit this review" 
+        message: "Forbidden" 
     });
   
     const updatedReview = await existingReview.update({
@@ -111,7 +111,7 @@ router.delete('/:id', requireAuth, async (req, res) => {
     });
 
     if (review.userId !== req.user.id) return res.status(403).json({
-        message: "You do not have permission to delete this Review" 
+        message: "Forbidden" 
     });
     
     await review.destroy();

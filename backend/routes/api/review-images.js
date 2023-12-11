@@ -13,7 +13,7 @@ router.delete('/:id', requireAuth, async (req, res) => {
       });
       const review = await Review.findByPk(reviewImage.reviewId);
       if (review.userId !== req.user.id) return res.status(403).json({ 
-        message: "You do not have permission to delete this review" 
+        message: "Forbidden" 
       });
       
       await reviewImage.destroy();

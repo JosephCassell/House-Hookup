@@ -206,8 +206,9 @@ router.put('/:spotId', requireAuth, async (req, res) => {
   }
     const spot = await Spot.findByPk(spotId);
     if (!spot) return res.status(404).json({ message: "Spot couldn't be found" });
+    
     if (spot.ownerId !== req.user.id) return res.status(403).json({ 
-      message: "You do not have permission to edit this spot" 
+      message: "Forbidden" 
     });
     
     const updatedSpot = await spot.update({
@@ -247,7 +248,7 @@ router.delete('/:id', requireAuth, async (req, res) => {
       });
       
       if (spot.ownerId !== req.user.id) return res.status(403).json({ 
-        message: "You do not have permission to delete this spot" 
+        message: "Forbidden" 
       });
       
       await spot.destroy();
@@ -326,7 +327,7 @@ router.post('/:id/bookings', requireAuth, async (req, res) => {
   if (!spot) return res.status(404).json({ message: "Spot couldn't be found" });
   
   if (spot.ownerId === userId) return res.status(403).json({ 
-    message: "You cannot create a booking on a spot you own" 
+    message: "Forbidden" 
   });
   if (new Date(startDate) < new Date()) {
     return res.status(400).json({
@@ -456,7 +457,7 @@ router.post('/:id/images', requireAuth, async (req, res) => {
   }
   if(spot.ownerId !== req.user.id) {
     return res.status(403).json({ 
-      message: "You do not have permission to add an image to this spot" 
+      message: "Forbidden" 
     });
   } 
   

@@ -58,7 +58,7 @@ router.put('/:id', requireAuth, async (req, res) => {
     });
   
     if (existingBooking.userId !== userId) return res.status(403).json({ 
-      message: "You do not have permission to edit this booking" 
+      message: "Forbidden" 
     });
     
     if (new Date(existingBooking.startDate) <= new Date()) {
@@ -164,7 +164,7 @@ router.delete('/:id', requireAuth, async (req, res) => {
     });
     
     if (booking.userId !== req.user.id) return res.status(403).json({ 
-      message: "You do not have permission to delete this booking" 
+      message: "Forbidden" 
     });
     console.log(currentDate)
     if (currentDate <= booking.endDate && currentDate >= booking.startDate) {
