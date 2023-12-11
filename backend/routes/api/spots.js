@@ -263,7 +263,13 @@ router.get('/current', requireAuth, async (req, res) => {
       'lat', 'lng', 'name', 'description', 'price', 'avgRating', 
       'previewImage']
     });
-  res.status(200).json({ Spots: spots });
+    const convertedSpots = spots.map(spot => ({
+      ...spot.get({ plain: true }),
+      lat: parseFloat(spot.lat),
+      lng: parseFloat(spot.lng),
+      price: parseFloat(spot.price)
+  }));
+  res.status(200).json({ Spots: convertedSpots });
 });
 // Create a Review for a Spot based on the Spot's id
 router.post('/:id/reviews', requireAuth, async (req, res) => {
@@ -322,7 +328,11 @@ router.post('/:id/bookings', requireAuth, async (req, res) => {
   if (spot.ownerId === userId) return res.status(403).json({ 
     message: "You cannot create a booking on a spot you own" 
   });
-  
+  if (new Date(startDate) < new Date()) {
+    return res.status(400).json({
+        message: "You cannot create a booking in the past"
+    });
+  }
   const validateBooking = async () => {
     let errors = {};
       const badStartDate = await Booking.findOne({
@@ -344,6 +354,7 @@ router.post('/:id/bookings', requireAuth, async (req, res) => {
           ]
         }
       });
+      
       
       if (badStartDate) {
         errors.startDate = "Start date conflicts with an existing booking";
@@ -515,17 +526,15 @@ router.get('/:id/bookings', requireAuth, async (req, res) => {
   if(!spot) return res.status(404).json({message: "Spot couldn't be found"})
   
   if(userId === spot.ownerId){
-    const userBookings = await User.findByPk(userId,{
-      attributes: ['id', "firstName", 'lastName'],
-      include: [
-        {
-          model: Booking,
-          attributes: ['id', 'spotId', 'userId', 'startDate', 
-          'endDate', 'createdAt', 'updatedAt']
-        }
-      ]
-    })
-    const Bookings = userBookings.Bookings.map(booking => ({
+    const userBookings = await Booking.findAll({
+      where: { spotId: spotId },
+      attributes: ['id', 'spotId', 'userId', 'startDate', 'endDate', 'createdAt', 'updatedAt'],
+      include: [{
+          model: User,
+          attributes: ['id', 'firstName', 'lastName']
+      }]
+  });
+    const Bookings = userBookings.map(booking => ({
       User: {
         id: userBookings.id,
         firstName: userBookings.firstName,
