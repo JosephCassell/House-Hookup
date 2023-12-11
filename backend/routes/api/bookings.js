@@ -127,7 +127,7 @@ router.put('/:id', requireAuth, async (req, res) => {
     };
     const errors = await validateBooking(req.body);
     if (errors) {
-        return res.status(400).json({
+        return res.status(403).json({
             message: "Bad Request",
             errors: errors
         });
