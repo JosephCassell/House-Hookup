@@ -99,7 +99,12 @@ router.get('/', async (req, res) => {
   const where = findTheFilters(req.query)
   if (where) {
     const spotted = await Spot.findAll({
-      where, 
+      where,
+      attributes: [
+        'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 
+        'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 
+        'avgRating', 'previewImage'
+      ],  
       limit: size,
       offset: (page - 1) * size
     });
