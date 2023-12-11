@@ -108,15 +108,20 @@ router.get('/', async (req, res) => {
     size
   });
   } else {
-    const Spots = await Spot.findAll({
+    const spots = await Spot.findAll({
       attributes: [
         'id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 
         'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 
         'avgRating', 'previewImage'
       ]});
-
+      const convertedSpots = spots.map(spot => ({
+        ...spot.get({ plain: true }),
+        lat: parseFloat(spot.lat),
+        lng: parseFloat(spot.lng),
+        price: parseFloat(spot.price)
+      }));
       res.status(200).json({ 
-        Spots,
+        Spots: convertedSpots,
         page,
         size
       });
