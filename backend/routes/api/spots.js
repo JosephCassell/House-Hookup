@@ -26,6 +26,7 @@ const calculateAvgStarRating = async (body) => {
   return avg;
 }
 
+
 const validateReviews = (body) => {
   const errors = {};
   if(!body.review) errors.review = "Review text is required"
@@ -102,8 +103,19 @@ router.get('/', async (req, res) => {
       limit: size,
       offset: (page - 1) * size
     });
+    const convertedSpotted = await Promise.all(spotted.map(async (spot) => {
+      const avgRating = await calculateAvgStarRating(spot.id);
+  
+      return {
+        ...spot.get({ plain: true }),
+        lat: parseFloat(spot.lat),
+        lng: parseFloat(spot.lng),
+        price: parseFloat(spot.price),
+        avgRating: avgRating
+      };
+    }));
   return res.status(200).json({
-    spotted,
+    Spots: convertedSpotted,
     page,
     size
   });
@@ -114,11 +126,16 @@ router.get('/', async (req, res) => {
         'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt', 
         'avgRating', 'previewImage'
       ]});
-      const convertedSpots = spots.map(spot => ({
-        ...spot.get({ plain: true }),
-        lat: parseFloat(spot.lat),
-        lng: parseFloat(spot.lng),
-        price: parseFloat(spot.price)
+      const convertedSpots = await Promise.all(spots.map(async (spot) => {
+        const avgRating = await calculateAvgStarRating(spot.id);
+    
+        return {
+          ...spot.get({ plain: true }),
+          lat: parseFloat(spot.lat),
+          lng: parseFloat(spot.lng),
+          price: parseFloat(spot.price),
+          avgRating: avgRating
+        };
       }));
       res.status(200).json({ 
         Spots: convertedSpots,

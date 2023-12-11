@@ -45,7 +45,7 @@ module.exports = {
       name: 'BPlace',
       description: 'B dope place with great views.',
       price: 100,
-      //avgRating: 1.5,
+      //avgRating: 1,
       //numReviews: 1,
       previewImage: 'image-url2.jpg',
     },
@@ -61,7 +61,7 @@ module.exports = {
       name: 'CPlace',
       description: 'C dope place with great views.',
       price: 10,
-      //avgRating: 3.5,
+      //avgRating: 0,
       previewImage: 'image-url3.jpg',
     }
   ])
