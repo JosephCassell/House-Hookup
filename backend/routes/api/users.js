@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const { Review } = require('../../db/models'); 
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
@@ -48,7 +49,6 @@ router.post(
         user: safeUser
       });
     }
-  );
-
+);
 
 module.exports = router; 
