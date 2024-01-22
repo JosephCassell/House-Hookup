@@ -13,7 +13,7 @@ function Layout() {
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-    dispatch(fetchSpots())
+    //dispatch(fetchSpots())
   }, [dispatch]);
 
   return (
