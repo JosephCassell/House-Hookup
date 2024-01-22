@@ -1,3 +1,42 @@
 .hidden {
     display: none
 }
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+  
+.navbar .logo {
+    font-size: 24px; 
+    cursor: pointer; 
+}
+
+.navbar-logo img {
+    height: 50px;
+    width: 50px; 
+}
+.navbar .session-links {
+    display: flex;
+    gap: 10px; 
+}
+  
+.nav-link, .navbar .session-links > * {
+    cursor: pointer;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid transparent; 
+    border-radius: 4px; 
+    background-color: #f2f2f2;
+    color: #333; 
+}
+  
+.nav-link:hover, .navbar .session-links > *:hover {
+    border-color: #ccc; 
+    background-color: #e6e6e6; 
+    color: #000;
+}

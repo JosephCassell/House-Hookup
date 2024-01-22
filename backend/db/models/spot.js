@@ -62,18 +62,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DECIMAL(20, 2)
     },
     avgRating: {
-      type: DataTypes.DECIMAL(1, 1),
-      // references: {
-        //   model: 'Reviews',
-        //   key: 'stars',
-        // }
+      type: DataTypes.DECIMAL(1, 1)
       },
       numReviews: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
       previewImage: {
-        type: DataTypes.STRING(300)
+        allowNull: false,
+      type: DataTypes.STRING,
+      get() {
+        return this.getDataValue("previewImage")
+      }
       },
     }, {
       sequelize,
@@ -81,4 +81,3 @@ module.exports = (sequelize, DataTypes) => {
     });
     return Spot;
   };
-  //Spot.hasMany(models.Review, { foreignKey: 'stars' });
