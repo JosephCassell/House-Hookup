@@ -1,0 +1,82 @@
+.create-review-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .create-review-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .create-review-content h2 {
+    margin-bottom: 10px;
+  }
+  
+  .create-review-content textarea {
+    width: 96%;
+    height: 100px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+  }
+  
+  .Review-star-rating .star.filled {
+    color: #ffc107;
+  }
+  
+  .submit-review {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: block;
+    width: 100%;
+  }
+  
+  .submit-review:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: 10px;
+  }
+  .Review-star-rating {
+    display: block; 
+    font-size: 25px;
+    color: #ccc;
+    cursor: pointer;
+    margin-bottom: 10px;
+    display: inline-block;
+    font-size: 25px;
+    color: #ccc;
+    cursor: pointer; 
+  }
+
+.submit-review {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    display: block;
+    width: 100%;
+}

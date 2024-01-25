@@ -11,6 +11,7 @@ function LoginFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const isFormValid = credential.length >= 4 && password.length >= 6;
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -23,7 +24,17 @@ function LoginFormModal() {
         }
       });
   };
-
+  const loginDemoUser = () => {
+    setErrors({});
+    dispatch(sessionActions.login({ credential: 'Demo-lition', password: 'password' }))
+      .then(closeModal)
+      .catch(async (res) => {
+        const data = await res.json();
+        if (data && data.errors) {
+          setErrors(data.errors);
+        }
+      });
+  };
   return (
     <>
       <h1>Log In</h1>
@@ -47,9 +58,10 @@ function LoginFormModal() {
           />
         </label>
         {errors.credential && (
-          <p>{errors.credential}</p>
+          <p className='errormessage'>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button type="submit" className="loginButton" disabled={!isFormValid}>Log In</button>
+        <button type="button" className="demo-user-btn" onClick={loginDemoUser}>Demo User</button>
       </form>
     </>
   );

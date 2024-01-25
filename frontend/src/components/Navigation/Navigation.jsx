@@ -10,23 +10,29 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
   let sessionLinks;
   if (sessionUser) {
-    sessionLinks = <ProfileButton user={sessionUser} />;
+    sessionLinks = (
+      <>
+          <NavLink to="/spots/new" className="Create-a-Spot">Create a New Spot</NavLink>
+          <ProfileButton user={sessionUser} />
+      </>
+    );
   } else {
-    sessionLinks = 
-        <>
-      <li>
-        <OpenModalButton
-          buttonText="Log In"
-          modalComponent={<LoginFormModal />}
-        />
-      </li>
-      <li>
-        <OpenModalButton
-          buttonText="Sign Up"
-          modalComponent={<SignupFormModal />}
-        />
-      </li>
-    </>
+    sessionLinks = (
+      <>
+        <li>
+          <OpenModalButton
+            buttonText="Log In"
+            modalComponent={<LoginFormModal />}
+          />
+        </li>
+        <li>
+          <OpenModalButton
+            buttonText="Sign Up" 
+            modalComponent={<SignupFormModal />}
+          />
+        </li>
+      </>
+    );
   }
 
   return (
@@ -36,7 +42,7 @@ function Navigation({ isLoaded }) {
       </NavLink>
       <div className="navbar-links">
         <ul>
-          {isLoaded && <li>{sessionLinks}</li>}
+          {isLoaded && sessionLinks}
         </ul>
       </div>
     </div>
