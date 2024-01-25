@@ -5,15 +5,14 @@ import Navigation from './components/Navigation/Navigation';
 import * as sessionActions from './store/session';
 import LandingPage from './components/LandingPage/LandingPage'
 import SpotDetails from './components/SpotDetails/SpotDetails';
-import { fetchSpots } from './store/spots';
-
+import CreateSpot from './components/CreateSpot/CreateSpot';
+import ManageSpots from './components/ManageSpots/ManageSpots';
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-    //dispatch(fetchSpots())
   }, [dispatch]);
 
   return (
@@ -36,6 +35,14 @@ const router = createBrowserRouter([
         path: '/spots/:id', 
         element: <SpotDetails />, 
       },
+      {
+        path: '/spots/new', 
+        element: <CreateSpot />, 
+      },
+      {
+        path: '/spots/current', 
+        element: <ManageSpots />, 
+      }
      
     ],
   },

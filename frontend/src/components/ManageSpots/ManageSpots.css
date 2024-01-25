@@ -1,0 +1,95 @@
+.manage-spots-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .manage-spots-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .spots-listing {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .spot-container {
+    width: calc(33.333% - 20px);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .spot-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  .spotInfo {
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .spot-info h2 {
+    margin-top: 0;
+  }
+  
+  .spot-actions {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #f2f2f2;
+  }
+  
+  
+  button.create-new-spot {
+    background-color: #ff5a5f;
+    color: white;
+    font-weight: bold;
+  }
+  
+  
+  button.update,
+  button.delete {
+    flex-grow: 1;
+  }
+  
+  button.update {
+    background-color: #008489;
+    color: white;
+  }
+  
+  button.delete {
+    background-color: #ff5a5f;
+    color: white;
+  }
+  
+  
+  @media (max-width: 1024px) {
+    .spot-container {
+      width: calc(50% - 20px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .spot-container {
+      width: 100%;
+    }
+  }
+  
