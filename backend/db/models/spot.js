@@ -69,7 +69,6 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
       },
       previewImage: {
-        allowNull: false,
       type: DataTypes.STRING,
       get() {
         return this.getDataValue("previewImage")

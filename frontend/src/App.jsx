@@ -7,6 +7,8 @@ import LandingPage from './components/LandingPage/LandingPage'
 import SpotDetails from './components/SpotDetails/SpotDetails';
 import CreateSpot from './components/CreateSpot/CreateSpot';
 import ManageSpots from './components/ManageSpots/ManageSpots';
+import EditSpot from './components/EditSpot/EditSpots';
+
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -42,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: '/spots/current', 
         element: <ManageSpots />, 
+      },
+      {
+        path: '/spots/:id/edit', 
+        element: <EditSpot />, 
       }
      
     ],

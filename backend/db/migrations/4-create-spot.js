@@ -55,7 +55,6 @@ module.exports = {
         type: Sequelize.DECIMAL
       },
       previewImage: {
-        allowNull: false,
         type: Sequelize.STRING(255),
       },
       numReviews: {

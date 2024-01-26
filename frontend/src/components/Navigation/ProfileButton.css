@@ -1,3 +1,46 @@
 .profileButton:hover, .logOut:hover {
     cursor: pointer;
 }
+.Manage-spots{
+    padding: 10px;
+    margin-bottom: 2px;
+}
+.profile-dropdown {
+    border: 1px solid #ccc; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    background-color: white; 
+    padding: 8px;
+    position: absolute; 
+    right: 0; 
+    z-index: 10; 
+  }
+  
+  .profile-dropdown li {
+    list-style: none; 
+    padding: 8px 12px; 
+    border-bottom: 1px solid #eee; 
+  }
+  
+  .profile-dropdown li:last-child {
+    border-bottom: none;
+  }
+  
+  .profile-dropdown button {
+    background: none; 
+    border: none; 
+    padding: 0; 
+    margin: 0; 
+    text-align: left; 
+    cursor: pointer; 
+  }
+  
+  .profile-dropdown button:hover {
+    background-color: #f5f5f5; 
+  }
+  
+  .hidden {
+    display: none; 
+  }
+  
+ 
+  

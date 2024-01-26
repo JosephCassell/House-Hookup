@@ -1,0 +1,50 @@
+.delete-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .delete-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .delete-modal-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .confirm-delete-button,
+  .cancel-button {
+    width: 80%; 
+    margin: 10px; 
+  }
+  
+  .confirm-delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  
+  .cancel-button {
+    background-color: grey;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  

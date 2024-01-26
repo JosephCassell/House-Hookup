@@ -48,7 +48,7 @@
     cursor: pointer;
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 1024px) {
     .spots-container {
         grid-template-columns: repeat(4, 1fr);
     }
