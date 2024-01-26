@@ -9,7 +9,7 @@ const LandingPage = () => {
     const navigate = useNavigate();
     const getSpots = useSelector(state => state.spots);
     const spotsArray = Object.values(getSpots);
-
+    console.log(spotsArray)
     useEffect(() => {
         dispatch(fetchSpots());
     }, [dispatch]);
@@ -32,7 +32,7 @@ const LandingPage = () => {
                             <p className="spot-location">{`${spot?.city}, ${spot?.state}`}</p>
                             <p className="spot-price">{`$${spot?.price} night`}</p>
                             <p className="star-rating">
-                                {spot?.avgRating && spot?.avgRating > 0 ? `${spot?.avgRating} ★` : "New"}
+                                {spot?.avgRating && spot?.avgRating > 0 ? `★ ${spot?.avgRating}` : "New"}
                             </p>
                         </div>
                     </div>

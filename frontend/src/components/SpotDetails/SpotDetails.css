@@ -1,3 +1,4 @@
+  
   .container {
     max-width: 1000px;
     margin: 0 auto;
@@ -50,63 +51,58 @@
     background-color: #0056b3;
   }
 
-  .reservation-info {
+  .details-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+    align-items: flex-start; 
+  }
+  
+  .description-section {
+    flex-grow: 1; 
+  }
+  
+  .reservation-info {
+    padding: 20px;
     border: 1px solid #ccc;
-    margin-top: 10px;
+    margin-left: 20px; 
+    width: 250px; 
+    flex-shrink: 0; 
   }
   
   .reservation-details {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; 
+    align-items: flex-end;
   }
-  
-  
-  
   .reserveButton {
-    background-color: lightblue;
+    background-color: #007bff;
     color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
     font-size: 1em;
+    text-align: right;
+    float: right; 
+    margin-top: 20px; 
   }
-  
   .reserveButton:hover {
     background-color: blue;
   }
   .price-per-night {
-    font-size: 1.5em;
+    font-size: 2em; 
     font-weight: bold;
   }
   
   .rating-and-reviews {
     display: flex;
+    justify-content: space-between; 
     align-items: center;
+    margin-top: 10px; 
   }
   
   .rating-and-reviews span {
     margin-right: 10px;
   }
-  
-  .reserveButton {
-    background-color: lightblue;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1em;
-  }
-  
-  .reserveButton:hover {
-    background-color: blue;
-  }
-  
-  
   
   .review {
     border-bottom: 1px solid #ccc;
@@ -119,6 +115,9 @@
   
   
   @media (max-width: 1024px) {
+    .description-section {
+      flex-direction: column-reverse;
+    }
     .image-gallery {
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(3, 200px);

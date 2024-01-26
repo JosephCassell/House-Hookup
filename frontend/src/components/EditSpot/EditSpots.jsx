@@ -1,29 +1,42 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { createSpot, addSpotImage } from '../../store/spots'
-import { useNavigate } from 'react-router-dom';
-import './CreateSpot.css';
-function CreateSpot() {
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { editSpot, fetchSpotDetails } from '../../store/spots'
+import { useNavigate, useParams } from 'react-router-dom';
+import './EditSpots.css';
+
+function EditSpot() {
+    const {id} = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [country, setCountry] = useState('');
-  const [address, setStreetAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [lat, setLatitude] = useState('');
-  const [lng, setLongitude] = useState('');
-  const [description, setDescription] = useState('');
-  const [name, setTitle] = useState('');
-  const [price, setPrice] = useState('');
-  const [previewImage, setPreviewImage] = useState('');
-  const [additionalImages, setAdditionalImages] = useState([]);
+  const spot = useSelector(state => state.spots[id]);
+  console.log(spot)
+  const [country, setCountry] = useState(spot?.country || '');
+  const [address, setStreetAddress] = useState(spot?.address || '');
+  const [city, setCity] = useState(spot?.city || '');
+  const [state, setState] = useState(spot?.state || '');
+  const [lat, setLatitude] = useState(spot?.lat || '');
+  const [lng, setLongitude] = useState(spot?.lng || '');
+  const [description, setDescription] = useState(spot?.description || '');
+  const [name, setTitle] = useState(spot?.name || '');
+  const [price, setPrice] = useState(spot?.price || '');
+  const [previewImage, setPreviewImage] = useState(spot?.previewImage || '');
+  const [additionalImages, setAdditionalImages] = useState(spot?.additionalImages || []);
   const [errors, setErrors] = useState({});
+  
+  const handleAddAdditionalImage = () => {
+    setAdditionalImages([...additionalImages, '']);
+  };
 
   const updateAdditionalImage = (index, url) => {
     const newAdditionalImages = [...additionalImages];
     newAdditionalImages[index] = url;
     setAdditionalImages(newAdditionalImages);
   };
+  useEffect(() => {
+    if (!spot) {
+      dispatch(editSpot({id}))
+    }
+  }, [dispatch, spot]);
   const validateForm = () => {
     let newErrors = {};
     let isValid = true;
@@ -94,15 +107,9 @@ function CreateSpot() {
       price,
       previewImage
     };
-    console.log(spotData)
-    const createdSpot = await dispatch(createSpot(spotData));
-    if (createdSpot) {
-      for (const imageUrl of additionalImages) {
-        if (imageUrl) {
-          await dispatch(addSpotImage(createdSpot.id, imageUrl)); // Updated line
-        }
-      }
-      navigate(`/spots/${createdSpot.id}`);
+    const updatedSpot = await dispatch(editSpot(id, spotData)); // Use editSpot instead of createSpot
+    if (updatedSpot) {
+      navigate(`/spots/${updatedSpot.id}`);
     }
   };
   const renderError = (key) => {
@@ -111,19 +118,20 @@ function CreateSpot() {
     }
   };
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h1>Create a new Spot</h1>
+    <div className='edit-spot-container'>
+      <form onSubmit={handleSubmit} className='edit-spot-form'>
+        <h1>Update your Spot</h1>
+        <section className='location-section'>
         <h2>Where's your place located?</h2>
         <p>Guests will only get your exact address once they booked a
         reservation</p>
+        
         <div>
           <label>Country</label>
           <input
             type="text"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            placeholder="Country"
           />
           {renderError('country')}
         </div>
@@ -133,7 +141,6 @@ function CreateSpot() {
             type="text"
             value={address}
             onChange={(e) => setStreetAddress(e.target.value)}
-            placeholder="Address"
           />
           {renderError('address')}
         </div><div>
@@ -142,7 +149,6 @@ function CreateSpot() {
             type="text"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            placeholder="City"
 
           />
           {renderError('city')}
@@ -152,7 +158,7 @@ function CreateSpot() {
             type="text"
             value={state}
             onChange={(e) => setState(e.target.value)}
-            placeholder="STATE"
+            
           />
           {renderError('state')}
         </div><div>
@@ -161,7 +167,6 @@ function CreateSpot() {
             type="number"
             value={lat}
             onChange={(e) => setLatitude(e.target.value)}
-            placeholder="Latitude"
           />
           {renderError('lat')}
         </div><div>
@@ -170,42 +175,42 @@ function CreateSpot() {
             type="number"
             value={lng}
             onChange={(e) => setLongitude(e.target.value)}
-            placeholder="Longitude"
           />
           {renderError('lng')}
-        </div> <div>
+        </div> 
+        </section>
+        <section className='description-section'>
           <h2>Describe your place to guests</h2>
           <p>Mention the best features of your space, any special amentities like fast wifi or parking, and what you love about the neighborhood</p>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            
             minLength="30"
-            placeholder="Please write at least 30 characters"
           />
           {renderError('description')}
-        </div>
-        <section>
+          </section>
+        <section className='title-section'>
         <h2>Create a title for your spot</h2>
         <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
         <input type="text" 
         value={name} 
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Name of your spot" 
+        onChange={(e) => setTitle(e.target.value)} 
          />
         {renderError('name')}
       </section>
-        <div>
+      <section className='price-section'>
           <h2>Set a base price for your spot</h2>
           <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
           <input
             type="number"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
-            placeholder = "Price per night (USD)" 
+            
           />
           {renderError('price')}
-        </div>
-        <div>
+          </section>
+          <section className='photos-section'>
           <h2>Liven up your spot with photos</h2>
           <p>Submit a link to at least one photo to publish your spot</p>
           <div>
@@ -213,33 +218,28 @@ function CreateSpot() {
           type="text"
           value={previewImage}
           onChange={(e) => setPreviewImage(e.target.value)}
-          placeholder = "Preview Image URL" 
         />
         {renderError('previewImage')}
         </div>
-        {[...Array(4)].map((_, index) => (
-          <div key={index}>
-            <input
-              type="text"
-              value={additionalImages[index] || ''}
-              onChange={(e) => {
-                let newImages = [...additionalImages];
-                newImages[index] = e.target.value;
-                setAdditionalImages(newImages);
-              }}
-              placeholder="Image URL"
-            />
-            {renderError(`imageUrl-${index}`)}
-          </div>
+        {additionalImages.map((url, index) => (
+      <div key={index}>
+        <input
+          type="text"
+          value={url}
+          onChange={(e) => updateAdditionalImage(index, e.target.value)}
+          />
+          {renderError(`imageUrl-${index}`)}
+        </div>
         ))}
         {renderError('imageUrl')}
-      </div>
-        <div>
-          <button type="submit" className='createSpot'>Create Spot</button>
+        <button type="button" onClick={handleAddAdditionalImage} className='AnotherImage'>Add another image</button>
+        </section>
+        <div className='submit-section'>
+          <button type="submit" className='updateSpot'>Update Spot</button>
         </div>
       </form>
     </div>
   );
 }
 
-export default CreateSpot;
+export default EditSpot;

@@ -5,6 +5,7 @@ import './SpotDetails.css';
 import { fetchSpotDetails, fetchSpotReviews } from '../../store/spots';
 import CreateReview from '../CreateReview/CreateReviewModal';
 import {createSpotReview} from '../../store/spots'
+import DeleteReviewModal from '../DeleteReviewModal/DeleteReviewModal';
 
 const SpotDetails = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,16 @@ const SpotDetails = () => {
   const reviews = useSelector(state => state.spots[id]?.reviews?.Reviews);
   const currentUser = useSelector(state => state.session.user);
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
-  
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedReviewId, setSelectedReviewId] = useState(null);
+
+  const handleDeleteModalOpen = (reviewId) => {
+    setSelectedReviewId(reviewId);
+    setDeleteModalOpen(true);
+  };
+  const handleDeleteModalClose = () => {
+    setDeleteModalOpen(false);
+  };
   const handleCloseModal = () => {
     setReviewModalOpen(false);
   };
@@ -31,9 +41,12 @@ const SpotDetails = () => {
     const fetchDetailsAndReviews = async () => {
       await dispatch(fetchSpotDetails(id));
       const fetchedReviews = await dispatch(fetchSpotReviews(id));
-      setReviews(fetchedReviews)
+      const sortedReviews = fetchedReviews?.Reviews?.sort((a, b) => 
+        new Date(b.updatedAt) - new Date(a.updatedAt)
+      );
+      setReviews(sortedReviews);
     };
-
+  
     fetchDetailsAndReviews();
   }, [dispatch, id]);
   
@@ -44,48 +57,50 @@ const SpotDetails = () => {
   return (
     <>
       {spot && (
-        <div className="spot-details">
-          <header>
-            <h1>{spot.name}</h1>
-            <p>{`${spot.city}, ${spot.state}, ${spot.country}`}</p>
-          </header>
+  <div className="spot-details">
+    <header>
+      <h1>{spot.name}</h1>
+      <p>{`${spot.city}, ${spot.state}, ${spot.country}`}</p>
+    </header>
 
-          <div className="image-gallery">
-          <div className="gallery-image main-image">
-          <img src={spot.previewImage} alt="Main preview" />
-          </div>
+    <div className="image-gallery">
+      <div className="gallery-image main-image">
+        <img src={spot.previewImage} alt="Main preview" />
+      </div>
 
-          
-        {spot.SpotImages.map((image, index) => (
+      {spot.SpotImages.map((image, index) => (
         <div key={index} className="gallery-image sub-image">
           <img src={image.url} alt={`Spot view ${index + 1}`} />
         </div>
-        ))}
+      ))}
+    </div>
+
+    <div className="details-container">
+      <section className="description-section">
+        <h2>Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</h2>
+        <p>{spot.description}</p>
+      </section>
+      
+      <aside className="reservation-info">
+        <div className="reservation-details">
+          <div className="price-per-night">
+            <span>${spot.price}</span> per night
+          </div>
+          <div className="rating-and-reviews">
+            <span>★ {spot.avgStarRating} {reviews?.length === 1 ? ` · 1 Review` : reviews?.length > 1 ? ` · ${reviews.length} Reviews` : 'New'}</span>
+          </div>
         </div>
+        <button onClick={() => alert('Feature Coming Soon...')} className="reserveButton">Reserve</button>
+      </aside>
+    </div>
+    
+    <hr />
+         
 
-          <section>
-            <h2>Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</h2>
-            <p>{spot.description}</p>
-          </section>
-
-          <aside>
-        <div className="reservation-info">
-          <div className="reservation-details">
-            <div className="price-per-night">
-              <span>${spot.price}</span> per night
-            </div>
-              <div className="rating-and-reviews">
-                <span>{spot.avgStarRating} ★</span>
-             <span>{reviews?.length ? `${reviews.length} reviews` : 'New'}</span>
-             </div>
-          </div>
-            <button onClick={() => alert('Feature Coming Soon...')} className="reserveButton">Reserve</button>
-          </div>
-        </aside>
 
           <section>
             
-          <h2>{reviews?.length ? `★ ${reviews.length} Reviews` : ' ★ New'}</h2>
+          <h2>★ {spot.avgStarRating} {reviews?.length === 1 ? ` · 1 Review` : reviews?.length > 1 ? ` · ${reviews.length} Reviews` : 'New'}</h2>
   <div className="rating-and-reviews">
       {currentUser && !userHasReviewed && !isOwner && (
   <button onClick={handleOpenModal}>
@@ -93,20 +108,31 @@ const SpotDetails = () => {
   </button>
     )}
   </div>
-        {reviews?.length ? (
+    {reviews?.length ? (
     reviews.map((review, index) => (
       <div key={index} className="review">
         <p><strong>{review.User.firstName}</strong></p>
-        <p>{new Date(review.updatedAt).toLocaleDateString()}</p>
+        <p>{new Date(review.updatedAt).toLocaleDateString('default', { month: 'long', year: 'numeric' })}</p>
         <p>{review.review}</p>
+        {currentUser?.id === review.User.id && (
+      <button onClick={() => handleDeleteModalOpen(review.id)}>
+        Delete
+      </button>
+       )}
       </div>
     ))
     ) : (
-    <p>This spot is new and hasn't been reviewed yet.</p>
+    <p>Be the first to post a review!</p>
    )}
     </section>
         </div>
       )}
+      {isDeleteModalOpen && (
+      <DeleteReviewModal
+        reviewId={selectedReviewId}
+        onClose={handleDeleteModalClose}
+      />
+    )}
       {isReviewModalOpen && (
         <CreateReview
           spotId={id}

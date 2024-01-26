@@ -1,53 +1,58 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserSpots } from '../../store/spots';
 import './ManageSpots.css';
 import { useNavigate } from 'react-router-dom';
-
+import DeleteSpotModal from '../DeleteSpotModal/DeleteSpotModal'
 function ManageSpots() {
   const dispatch = useDispatch();
-  const spots = useSelector((state) => state.spots.userSpots); 
+  const spots = useSelector((state) => state.spots.userSpots);
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchUserSpots());
-    console.log('Spots:', spots);
 }, [dispatch]);
 
-
+const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+const [currentSpotId, setCurrentSpotId] = useState(null);
  
-  const handleUpdate = (spotId) => {
-    console.log('Update spot with id:', spotId);
-  };
+const handleUpdate = (spotId) => {
+  navigate(`/spots/${spotId}/edit`);
+};
 
   const handleDelete = (spotId) => {
-    console.log('Delete spot with id:', spotId);
+    setCurrentSpotId(spotId);
+    setIsDeleteModalOpen(true);
   };
   
-  const handleSpotClick = () => {
+  const handleCreateNewSpot = () => {
     navigate(`/spots/new`);
   };
-  return (
+
+  const handleSpotClick = (spotId) => {
+    navigate(`/spots/${spotId}`);
+  };
+   return (
     <div className='manage-spots-container'>
-      <h1>Manage Your Spots</h1>
-      <button onClick={handleSpotClick}>Create a New Spot</button>
-      <div className='spots-listing'>
-      {spots &&Object.values(spots).map((spot) => (
-          <div key={spot?.id} className='spot-container'>
-            <img src={spot?.previewImage} alt={spot?.name} className='spot-image'/>
-            <div className='spotInfo'>
-              <h2>{spot?.name}</h2>
-              <p>{spot?.city}, {spot?.state}</p>
-              <p>${spot?.price} per night</p>
-              <p>★ {spot?.avgRating}</p>
+      <h1>Manage Spots</h1>
+      <button onClick={handleCreateNewSpot} className='CreateSpot'>Create a New Spot</button>
+      <div className='manage-spots-listing'>
+        {spots && Object.values(spots).map((spot) => (
+          <div key={spot?.id} className="manage-spot-tile">
+            <img src={spot?.previewImage} alt={spot?.name} onClick={() => handleSpotClick(spot?.id)} title={spot?.name} />
+            <div className="manage-spot-info" onClick={() => handleSpotClick(spot?.id)}>
+              <p className="manage-spot-location">{`${spot?.city}, ${spot?.state}`}</p>
+              <p className="manage-spot-price">{`$${spot?.price} night`}</p>
+              <p className="manage-star-rating">{spot?.avgRating && spot?.avgRating > 0 ? `★ ${spot?.avgRating}` : "New"}</p>
             </div>
-            <div className='spot-actions'>
-              <button onClick={() => handleUpdate(spot?.id)}>Update</button>
-              <button onClick={() => handleDelete(spot?.id)}>Delete</button>
+            <div className='manage-spot-actions'>
+              <button onClick={() => handleUpdate(spot?.id)} className='update'>Update</button>
+              <button onClick={() => handleDelete(spot?.id)} className='delete'>Delete</button>
             </div>
           </div>
         ))}
       </div>
+      {isDeleteModalOpen && <DeleteSpotModal spotId={currentSpotId} onClose={() => setIsDeleteModalOpen(false)} />}
     </div>
   );
 }

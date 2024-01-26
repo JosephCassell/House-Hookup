@@ -1,95 +1,121 @@
 .manage-spots-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.manage-spots-container h1 {
+  margin-bottom: 20px;
+}
+
+button.CreateSpot {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #ff5a5f;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+
+.manage-spots-listing {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); 
+  gap: 20px;
+  justify-content: center;
+}
+
+
+.manage-spot-tile {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden; 
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
+.manage-spot-tile:hover {
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.manage-spot-tile img {
+  width: 100%; 
+  height: 250px;
+  object-fit: cover;
+}
+
+.manage-spot-info {
+  padding: 10px;
+  text-align: left;
+  padding-bottom: 60px;
+}
+
+.manage-spot-actions {
+  position: absolute; 
+  bottom: 10px; 
+  left: 10px; 
+  display: flex;
+  gap: 1px;
+}
+
+
+
+button.CreateSpot {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #ff5a5f;
+  color: white;
+  font-weight: bold;
+  align-self: start; 
+}
+button.update, button.delete {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 5px; 
+}
+
+button.update {
+  background-color: #008489;
+  color: white;
+}
+
+button.delete {
+  background-color: #ff5a5f;
+  color: white;
+}
+
+.manage-star-rating {
+  position: absolute; 
+  bottom: 10px; 
+  right: 10px;
+  background: rgba(255, 255, 255, 0.8); 
+  border-radius: 5px; 
+  padding: 2px 5px; 
+  font-size: 1em; 
+}
+button.CreateSpot:hover, button.update:hover, button.delete:hover {
+  background-color: #e57373; 
+}
+
+button.update:hover {
+  background-color: #00a0b0; 
+}
+
+button.delete:hover {
+  background-color: #ff7e7f; 
+}
+@media (max-width: 1024px) {
+  .manage-spots-container {
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .manage-spots-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .spots-listing {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-  }
-  
-  .spot-container {
-    width: calc(33.333% - 20px);
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  
-  .spot-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    object-position: center;
-  }
-  
-  .spotInfo {
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .spot-info h2 {
-    margin-top: 0;
-  }
-  
-  .spot-actions {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-  }
-  
-  button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  button:hover {
-    background-color: #f2f2f2;
-  }
-  
-  
-  button.create-new-spot {
-    background-color: #ff5a5f;
-    color: white;
-    font-weight: bold;
-  }
-  
-  
-  button.update,
-  button.delete {
-    flex-grow: 1;
-  }
-  
-  button.update {
-    background-color: #008489;
-    color: white;
-  }
-  
-  button.delete {
-    background-color: #ff5a5f;
-    color: white;
-  }
-  
-  
-  @media (max-width: 1024px) {
-    .spot-container {
-      width: calc(50% - 20px);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .spot-container {
-      width: 100%;
-    }
-  }
-  
+}

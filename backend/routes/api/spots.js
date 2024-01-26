@@ -13,7 +13,6 @@ const calculateAvgStarRating = async (body) => {
     where: { spotId: body },
     attributes: ['stars'],
   });
-  console.log(starsRatings)
   if (starsRatings.length === 0) {
     return 0;
   }
@@ -23,7 +22,7 @@ const calculateAvgStarRating = async (body) => {
   }, 0);
 
   const avg = sum / starsRatings.length;
-  return avg;
+  return parseFloat(avg.toFixed(2));
 }
 
 
@@ -150,10 +149,8 @@ router.get('/', async (req, res) => {
   }
 });
 // Create a Spot
-router.post('/', requireAuth, async (req, res) => {
-  const { 
-    address, city, state, country, lat, lng, name, description, price 
-  } = req.body;
+router.post('/new', requireAuth, async (req, res) => {
+  const { address, city, state, country, lat, lng, name, description, price, previewImage } = req.body;
   const errors = validateSpot(req.body);
   if (errors) {
     return res.status(400).json({
@@ -173,6 +170,7 @@ router.post('/', requireAuth, async (req, res) => {
       name,
       description,
       price,
+      previewImage
     });
     res.status(201).json({
       id: newSpot.id,
@@ -186,6 +184,7 @@ router.post('/', requireAuth, async (req, res) => {
       name: newSpot.name,
       description: newSpot.description,
       price: parseFloat(newSpot.price),
+      previewImage: newSpot.previewImage, 
       createdAt: newSpot.createdAt,
       updatedAt: newSpot.updatedAt
     });
@@ -264,11 +263,15 @@ router.get('/current', requireAuth, async (req, res) => {
       'lat', 'lng', 'name', 'description', 'price', 'avgRating', 
       'previewImage']
     });
-    const convertedSpots = spots.map(spot => ({
+    const convertedSpots = await Promise.all(spots.map(async (spot) => {
+      const avgStarRating = await calculateAvgStarRating(spot.id);
+      return {
       ...spot.get({ plain: true }),
       lat: parseFloat(spot.lat),
       lng: parseFloat(spot.lng),
-      price: parseFloat(spot.price)
+      price: parseFloat(spot.price),
+      avgRating: avgStarRating
+      }
   }));
   res.status(200).json({ Spots: convertedSpots });
 });
@@ -508,10 +511,11 @@ router.get('/:id', async (req, res) => {
     description: spot.description,
     price: parseFloat(spot.price),
     numReviews: numReviews,
-    avgStarRating: avgStarRating, 
+    avgStarRating: avgStarRating,
+    previewImage: spot.previewImage, 
     createdAt: spot.createdAt,
     updatedAt: spot.updatedAt,
-    SpotImages: spot.SpotImages, 
+    SpotImages: spot.SpotImages,  
     Owner: spot.Owner
 };
 

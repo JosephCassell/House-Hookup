@@ -1,0 +1,60 @@
+.edit-spot-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .edit-spot-form h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .edit-spot-form section {
+    margin-bottom: 30px;
+  }
+  
+  .edit-spot-form h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .edit-spot-form p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .edit-spot-form input[type="text"],
+  .edit-spot-form input[type="number"],
+  .edit-spot-form textarea {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-spot-form .error-message {
+    color: #d9534f;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+  }
+  .updateSpot {
+    width: 100%;
+    padding: 10px 15px;
+    background: #5c7bb8;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+  }
+  
+  .updateSpot:hover {
+    background: #4c4eae;
+  }
+  

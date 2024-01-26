@@ -19,6 +19,7 @@ const CreateReview = ({ onClose, onSubmit }) => {
         setError(result.error || 'An unknown error occurred');
       }
     }
+    window.location.reload();
   };
   
 

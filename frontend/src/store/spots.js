@@ -5,15 +5,36 @@ export const CREATE_SPOT = 'spots/createSpots';
 export const ADD_SPOT_IMAGE = 'spots/addSpotImage';
 export const CREATE_SPOT_REVIEW = 'spots/createSpotReview';
 export const LOAD_USER_SPOTS = 'spots/loadUserSpots';
+export const EDIT_SPOT = 'spots/editSpot';
+export const DELETE_SPOT = 'spots/deleteSpot';
+export const DELETE_SPOT_REVIEW = 'spots/deleteSpotReview';
 
 import { csrfFetch } from "./csrf";
+export const deleteSpotReviewAction = (reviewId, spotId) => {
+    return {
+        type: DELETE_SPOT_REVIEW,
+        reviewId,
+        spotId
+    };
+};
+export const deleteSpotAction = (spotId) => {
+    return {
+        type: DELETE_SPOT,
+        spotId
+    };
+};
 export const loadUserSpots = (spots) => {
     return {
         type: LOAD_USER_SPOTS,
         spots
     };
 };
-
+export const editSpotAction = (spot) => {
+    return {
+        type: 'spots/editSpot',
+        spot
+    };
+};
 export const load = (spots) => {
     return {
         type: LOAD_SPOTS,
@@ -128,7 +149,39 @@ export const fetchUserSpots = () => async dispatch => {
         return list;
     }
 };
+export const editSpot = (spotId, spotData) => async dispatch => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(spotData)
+    });
 
+    if (response.ok) {
+        const updatedSpot = await response.json();
+        dispatch(editSpotAction(updatedSpot));
+        return updatedSpot;
+    }
+};
+export const deleteSpot = (spotId) => async dispatch => {
+    const response = await csrfFetch(`/api/spots/${spotId}`, {
+        method: 'DELETE',
+    });
+
+    if (response.ok) {
+        dispatch(deleteSpotAction(spotId));
+        return spotId; 
+    } 
+};
+export const deleteSpotReview = (reviewId, spotId) => async dispatch => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: 'DELETE'
+    });
+
+    if (response.ok) {
+        dispatch(deleteSpotReviewAction(reviewId, spotId));
+        return reviewId;
+    }
+};
 
 let initialState = {};  
 
@@ -191,6 +244,26 @@ const spotsReducer = (state = initialState, action) => {
                 ...state,
                 userSpots
             };
+            case EDIT_SPOT:
+            return {
+                ...state,
+                [action.spot.id]: action.spot
+            };
+            case DELETE_SPOT:
+            const newDelete = { ...state };
+            delete newDelete[action.spotId];
+            return newDelete;
+            case DELETE_SPOT_REVIEW:
+            const newReview = { ...state };
+            if (newReview[action.spotId]) {
+                const updatedReviews = { ...newReview[action.spotId].reviews };
+                delete updatedReviews[action.reviewId];
+                newReview[action.spotId] = {
+                    ...newReview[action.spotId],
+                    reviews: updatedReviews
+                };
+            }
+            return newReview;
         default: 
             return state;
     }
