@@ -17,7 +17,7 @@ const SpotDetails = () => {
   const [isReviewModalOpen, setReviewModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState(null);
-
+  console.log(createdreviews)
   const handleDeleteModalOpen = (reviewId) => {
     setSelectedReviewId(reviewId);
     setDeleteModalOpen(true);

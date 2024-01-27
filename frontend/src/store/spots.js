@@ -187,18 +187,19 @@ let initialState = {};
 
 const spotsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOAD_SPOTS:
+        case LOAD_SPOTS: {
             let newSpots = {...state};
             action.spots.forEach((spot) => {
                  newSpots[spot.id] = spot;
             });
             return newSpots;
-
-        case LOAD_SPOT_DETAILS:
+        }
+        case LOAD_SPOT_DETAILS: {
             let newState = {};
             newState.spotDetails = action.details;
             return newState;
-        case LOAD_SPOT_REVIEWS:
+        }
+        case LOAD_SPOT_REVIEWS: {
             return {
                 ...state,
                 [action.spotId]: {
@@ -206,13 +207,15 @@ const spotsReducer = (state = initialState, action) => {
                     reviews: action.reviews,
                 }
             };
-        case CREATE_SPOT:
+        }
+        case CREATE_SPOT: {
             const { spot } = action;
             return {
                 ...state,
                 [spot.id]: spot
         };
-        case ADD_SPOT_IMAGE:
+    }
+        case ADD_SPOT_IMAGE: {
             return {
             ...state,
             [action.spotId]: {
@@ -220,7 +223,8 @@ const spotsReducer = (state = initialState, action) => {
             images: state[action.spotId].images ? [...state[action.spotId].images, action.image] : [action.image]
             }
         };
-        case CREATE_SPOT_REVIEW:
+    }
+        case CREATE_SPOT_REVIEW:{
     
     const spotExists = state[action.review.spotId];
     const spotReviews = spotExists ? state[action.review.spotId].reviews || {} : {};
@@ -235,7 +239,8 @@ const spotsReducer = (state = initialState, action) => {
             }
         }
     };
-    case LOAD_USER_SPOTS:
+    }
+    case LOAD_USER_SPOTS:{
             let userSpots = {};
             action.spots.forEach((spot) => {
                 userSpots[spot.id] = spot;
@@ -244,16 +249,19 @@ const spotsReducer = (state = initialState, action) => {
                 ...state,
                 userSpots
             };
-            case EDIT_SPOT:
+        }
+            case EDIT_SPOT:{
             return {
                 ...state,
                 [action.spot.id]: action.spot
             };
-            case DELETE_SPOT:
+        }
+            case DELETE_SPOT:{
             const newDelete = { ...state };
             delete newDelete[action.spotId];
             return newDelete;
-            case DELETE_SPOT_REVIEW:
+        }
+            case DELETE_SPOT_REVIEW:{
             const newReview = { ...state };
             if (newReview[action.spotId]) {
                 const updatedReviews = { ...newReview[action.spotId].reviews };
@@ -264,6 +272,7 @@ const spotsReducer = (state = initialState, action) => {
                 };
             }
             return newReview;
+        }
         default: 
             return state;
     }
