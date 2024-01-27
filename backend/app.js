@@ -74,5 +74,5 @@ if (!isProduction) {
       errors: err.errors,
     });
   });
-  //stack: isProduction ? null : err.stack
+  
   module.exports = app;
