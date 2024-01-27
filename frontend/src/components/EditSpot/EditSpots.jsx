@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { editSpot, fetchSpotDetails } from '../../store/spots'
+import { editSpot } from '../../store/spots'
 import { useNavigate, useParams } from 'react-router-dom';
 import './EditSpots.css';
 
@@ -35,7 +35,7 @@ function EditSpot() {
     if (!spot) {
       dispatch(editSpot({id}))
     }
-  }, [dispatch, spot]);
+  }, [dispatch, spot, id]);
   const validateForm = () => {
     let newErrors = {};
     let isValid = true;
