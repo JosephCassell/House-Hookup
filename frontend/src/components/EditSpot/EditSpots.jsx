@@ -5,11 +5,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './EditSpots.css';
 
 function EditSpot() {
-    const {id} = useParams();
+  const {id} = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const spot = useSelector(state => state.spots[id]);
-  console.log(spot)
   const [country, setCountry] = useState(spot?.country || '');
   const [address, setStreetAddress] = useState(spot?.address || '');
   const [city, setCity] = useState(spot?.city || '');

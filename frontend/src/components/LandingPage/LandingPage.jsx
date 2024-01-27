@@ -9,7 +9,6 @@ const LandingPage = () => {
     const navigate = useNavigate();
     const getSpots = useSelector(state => state.spots);
     const spotsArray = Object.values(getSpots);
-    console.log(spotsArray)
     useEffect(() => {
         dispatch(fetchSpots());
     }, [dispatch]);

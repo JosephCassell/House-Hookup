@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteSpot } from '../../store/spots';
 import './DeleteSpotModal.css'; 
