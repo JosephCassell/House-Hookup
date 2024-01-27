@@ -94,7 +94,6 @@ function CreateSpot() {
       price,
       previewImage
     };
-    console.log(spotData)
     const createdSpot = await dispatch(createSpot(spotData));
     if (createdSpot) {
       for (const imageUrl of additionalImages) {
