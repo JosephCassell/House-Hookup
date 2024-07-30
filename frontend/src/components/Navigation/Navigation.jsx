@@ -4,6 +4,7 @@ import ProfileButton from './ProfileButton';
 import OpenModalButton from '../OpenModalButton/OpenModalButton'
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupFormModal/SignupFormModal';
+import logo from '../../../househookup.png';
 import './Navigation.css';
 
 function Navigation({ isLoaded }) {
@@ -38,7 +39,7 @@ function Navigation({ isLoaded }) {
   return (
     <div className="navbar">
       <NavLink to="/" className="navbar-logo">
-        <img src="/househookup.png" alt="Home" />
+        <img src={logo} alt="Home" />
       </NavLink>
       <div className="navbar-links">
         <ul>
